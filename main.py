@@ -1,26 +1,27 @@
+import argparse
+from datetime import datetime
 import json
 import os
+import random
+import string
+from urllib.parse import urlparse
+import webbrowser
 
 DATA_FILE = "data.json"
 
 def load_data():
     if not os.path.exists(DATA_FILE):
-        return{}
-    with open(DATA_FILE,'r') as f:
+        return {}
+    with open(DATA_FILE, 'r') as f:
         return json.load(f)
 
 def save_data(data):
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=4)
 
-import random
-import string
-
-def generate_code(length = 6):
+def generate_code(length=6):
     characters = string.ascii_letters + string.digits
-    return "".join(random.choices(characters, k = length))
-
-from urllib.parse import urlparse
+    return "".join(random.choices(characters, k=length))
 
 def is_valid_url(url):
     try:
@@ -29,9 +30,7 @@ def is_valid_url(url):
     except ValueError:
         return False
 
-from datetime import datetime
-
-def shorten(url, alias = None):
+def shorten(url, alias=None):
     if not is_valid_url(url):
         print(f'Error: "{url}" is not a valid URL.')
         return
@@ -41,7 +40,7 @@ def shorten(url, alias = None):
     if alias:
         code = alias
         if code in data:
-            answer = input(f"Alias '{code}' already exists and maps to {data[code]['url']}.Overwrite? (yes/no): ")
+            answer = input(f"Alias '{code}' already exists and maps to {data[code]['url']}. Overwrite? (yes/no): ")
             if answer.lower() != 'yes':
                 print('Operation Cancelled.')
                 return
@@ -59,8 +58,6 @@ def shorten(url, alias = None):
     save_data(data)
     print(f"Short code created: {code}")
 
-import webbrowser
-
 def resolve(code):
     data = load_data()
 
@@ -68,7 +65,7 @@ def resolve(code):
         print(f"Error: short code '{code}' not found.")
         return
 
-    data[code]["clicks"] +=1
+    data[code]["clicks"] += 1
     save_data(data)
 
     url = data[code]["url"]
@@ -85,7 +82,6 @@ def list_urls():
     for code, info in data.items():
         print(f"{code}-> {info['url']}| clicks:{info['clicks']}| created:{info['created_at']}")
 
-import argparse
 def main():
     parser = argparse.ArgumentParser(description="A simple CLI URL shortener.")
     subparsers = parser.add_subparsers(dest="command")
