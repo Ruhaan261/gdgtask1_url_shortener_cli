@@ -1,0 +1,12 @@
+{
+    "Search_Engine": {
+        "url": "https://google.com",
+        "clicks": 2,
+        "created_at": "2026-09-18 15:36:41"
+    },
+    "gh": {
+        "url": "https://github.com",
+        "clicks": 1,
+        "created_at": "2026-09-18 18:08:26"
+    }
+}
