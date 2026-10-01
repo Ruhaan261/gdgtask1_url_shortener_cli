@@ -33,7 +33,7 @@ def generate_code(length=6):
 def is_valid_url(url):
     try:
         result = urlparse(url)
-        return all([result.scheme, result.netloc])
+        return result.scheme in ("http", "https") and bool(result.netloc)
     except ValueError:
         return False
 
