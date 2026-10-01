@@ -79,6 +79,19 @@ def resolve(code):
     print(f"Resolved to: {url}")
     webbrowser.open(url)
 
+def delete_url(code):
+    data = load_data()
+
+    if code not in data:
+        print(f"Error: short code '{code}' not found.")
+        return
+
+    removed_url = data[code]["url"]
+    del data[code]
+    save_data(data)
+    print(f"Deleted '{code}' (was pointing to {removed_url}).")
+
+
 def list_urls():
     data = load_data()
 
@@ -100,6 +113,9 @@ def main():
     resolve_parser = subparsers.add_parser("resolve", help="Resolve a short code to its URL")
     resolve_parser.add_argument("code", help="The short code to resolve")
 
+    delete_parser = subparsers.add_parser("delete", help="Delete a short code")
+    delete_parser.add_argument("code", help="The short code to delete")
+
     subparsers.add_parser("list", help="List of all shortened URLs")
 
     args = parser.parse_args()
@@ -110,6 +126,8 @@ def main():
         resolve(args.code)
     elif args.command == "list":
         list_urls()
+    elif args.command == "delete":
+        delete_url(args.code)
     else:
         parser.print_help()
 

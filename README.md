@@ -30,6 +30,7 @@ cd gdgtask1_url_shortener_cli
 `python3 main.py shorten <url> --alias <name>` => Uses your own code
 `python3 main.py resolve <code>` => Prints and opens the original URL
 `python3 main.py list` => Shows all stored mappings
+`python3 main.py delete <code>` => removes the mapping corresponding to the alias
 
 Running `python3 main.py` with no command shows the help text.
 
